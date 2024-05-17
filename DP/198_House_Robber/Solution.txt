@@ -1,0 +1,41 @@
+----------
+Recursion:
+----------
+class Solution {
+    public int rob(int[] nums) {
+        return robRecursive(nums, 0);
+    }
+
+    private int robRecursive(int[] nums, int i) {
+        if (i >= nums.length) {
+            return 0;
+        }
+        int steal = nums[i] + robRecursive(nums, i + 2);
+        int skip = robRecursive(nums, i + 1);
+        return Math.max(steal, skip);
+    }
+}
+
+----------
+Memoization:
+------------
+class Solution {
+    int[] DP;
+
+    public int rob(int[] nums) {
+        int n = nums.length;
+        DP = new int[n + 1]; // Initialize DP array inside the method
+        Arrays.fill(DP, -1); // Fill DP array inside the method
+        return solve(nums, 0, n);
+    }
+
+    public int solve(int[] nums, int i, int n) {
+        if (i >= n)
+            return 0;
+        if (DP[i] != -1)
+            return DP[i];
+        int steal = nums[i] + solve(nums, i + 2, n);
+        int skip = solve(nums, i + 1, n);
+        return DP[i] = Math.max(steal, skip);
+    }
+}
