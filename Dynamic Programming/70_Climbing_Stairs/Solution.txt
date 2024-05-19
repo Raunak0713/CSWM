@@ -7,7 +7,7 @@ class Solution {
         return climbStairs(n-1) + climbStairs(n-2);
     }
 }
-----------
+------------
 Memoization:
 ------------
 class Solution {
@@ -25,7 +25,7 @@ class Solution {
         return DP[n] = solve(n-1) + solve(n-2);
     }
 }
-----------
+------------
 Tabulation :
 ------------
 class Solution {
@@ -39,5 +39,21 @@ class Solution {
             DP[i] = DP[i-1] + DP[i-2];
         }
         return DP[n];
+    }
+}
+--------------------
+Space Optimization :
+--------------------
+class Solution {
+    public int climbStairs(int n) {
+        if(n==1) return 1;
+        int prev = 1;
+        int curr = 1;
+        for(int i=2;i<=n;i++){
+            int next = prev + curr;
+            prev = curr;
+            curr = next;
+        }
+        return curr;
     }
 }
