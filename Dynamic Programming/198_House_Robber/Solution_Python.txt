@@ -1,0 +1,71 @@
+----------
+Recursion:
+----------
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        def solve(nums: List[int], i: int) -> int:
+            if i >= len(nums):
+                return 0
+            a = nums[i] + solve(nums, i + 2)
+            b = solve(nums, i + 1)
+            return max(a, b)
+        
+        return solve(nums, 0)
+------------
+Memoization:
+------------
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        DP = [-1] * (len(nums) + 1)
+        
+        def solve(nums: List[int], i: int) -> int:
+            if i >= len(nums):
+                return 0
+            if DP[i] != -1:
+                return DP[i]
+            a = nums[i] + solve(nums, i + 2)
+            b = solve(nums, i + 1)
+            DP[i] = max(a, b)
+            return DP[i]
+        
+        return solve(nums, 0)
+------------
+Tabulation :
+------------
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        if not nums:
+            return 0
+        if len(nums) == 1:
+            return nums[0]
+        
+        DP = [-1] * (len(nums) + 1)
+        DP[0] = 0
+        DP[1] = nums[0]
+        
+        for i in range(2, len(nums) + 1):
+            a = nums[i - 1] + DP[i - 2]
+            b = DP[i - 1]
+            DP[i] = max(a, b)
+        
+        return DP[len(nums)]
+--------------------
+Space Optimization :
+--------------------
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        if not nums:
+            return 0
+        if len(nums) == 1:
+            return nums[0]
+        
+        first = 0
+        second = nums[0]
+        
+        for i in range(2, len(nums) + 1):
+            next_val = max(nums[i - 1] + first, second)
+            first = second
+            second = next_val
+        
+        return second
+        
